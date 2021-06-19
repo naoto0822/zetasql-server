@@ -26,7 +26,8 @@ char *parseStatement(char *sql) {
   std::unique_ptr<zetasql::ParserOutput> parser_output;
   const absl::Status parse_status = zetasql::ParseStatement(sql, zetasql::ParserOptions(), &parser_output);
   if (!parse_status.ok()) {
-    return strdup(parse_status.c_str());
+    std::string status_str = zetasql::internal::StatusToString(parse_status);
+    return strdup(status_str.c_str());
   }
 
   std::string ast_str = parser_output->statement()->DebugString();
