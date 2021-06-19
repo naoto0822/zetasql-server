@@ -1,25 +1,19 @@
 package main
 
-/*
-#include <stdlib.h>
-#include "parse_query.h"
-*/
-import "C"
-
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	"unsafe"
 )
 
 func main() {
 	fmt.Println("zetasql-ast-server v0.0.1")
 
 	http.HandleFunc("/valid", validHandler)
-	http.HandleFunc("/ast", astHandler)
+	http.HandleFunc("/parse", parseHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -30,31 +24,29 @@ func main() {
 }
 
 func validHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil || len(b) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	cs := C.CString(string(b))
-	defer C.free(unsafe.Pointer(cs))
 
-	formatResult := C.isValidStatement(cs)
-	defer C.free(unsafe.Pointer(formatResult))
+	isValid := IsValidStatement(ctx, string(b))
 
-	w.Write([]byte(C.GoString(formatResult)))
+	w.Write([]byte(isValid))
 }
 
-func astHandler(w http.ResponseWriter, r *http.Request) {
+func parseHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil || len(b) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	cs := C.CString(string(b))
-	defer C.free(unsafe.Pointer(cs))
 
-	formatResult := C.parseStatement(cs)
-	defer C.free(unsafe.Pointer(formatResult))
+	astOrErr := ParseStatement(ctx, string(b))
 
-	w.Write([]byte(C.GoString(formatResult)))
+	w.Write([]byte(astOrErr))
 }

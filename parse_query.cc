@@ -25,8 +25,12 @@ char *isValidStatement(char* sql) {
 char *parseStatement(char *sql) {
   std::unique_ptr<zetasql::ParserOutput> parser_output;
   const absl::Status parse_status = zetasql::ParseStatement(sql, zetasql::ParserOptions(), &parser_output);
-  std::string ret = parser_output->statement()->DebugString();
-  return strdup(ret.c_str());
+  if (!parse_status.ok()) {
+    return strdup(parse_status.c_str());
+  }
+
+  std::string ast_str = parser_output->statement()->DebugString();
+  return strdup(ast_str.c_str());
 }
 
 //char *analyzeStatement(char* sql) {
