@@ -5,6 +5,7 @@ go_binary(
     name = "zetasql-ast-server",
     srcs = [
         "main.go",
+        "zetasql.go",
     ],
     cdeps = [
         ":zetasql-parser",
