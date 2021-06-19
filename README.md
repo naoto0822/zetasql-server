@@ -36,6 +36,12 @@ QueryStatement [0-8]
           IntLiteral(1) [7-8]
 ```
 
+## Features
+
+- [ ] Analyze SQL
+- [ ] AST to JSON (DebugString to struct)
+- [ ] Hosting VPS or Web assembly
+
 ## References
 
 - [gogle/zetasql](https://github.com/google/zetasql)
