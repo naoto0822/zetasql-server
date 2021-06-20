@@ -15,15 +15,11 @@ $ docker run -p 8080:8080 -t naoto0822/zetasql-ast-server
 
 ## API
 
-### `/valid`
-
-- example
-```sh
-$ curl -X POST -H 'Content-type: application/text' --data 'SELECT 1' http://localhost:8080/valid
-OK
-```
-
 ### `/parse`
+
+> TODO: DebugString to JSON format...
+
+Returns a list of ZetaSQL AST DebugString or error message.
 
 - example
 ```sh
@@ -36,10 +32,21 @@ QueryStatement [0-8]
           IntLiteral(1) [7-8]
 ```
 
+### `/valid`
+
+Returns whether it is correct.
+
+- example
+```sh
+$ curl -X POST -H 'Content-type: application/text' --data 'SELECT 1' http://localhost:8080/valid
+OK
+```
+
 ## Features
 
 - [ ] Analyze SQL
 - [ ] AST to JSON (DebugString to struct)
+- [ ] cli tool
 - [ ] Hosting VPS or Web assembly
 
 ## References
