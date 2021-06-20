@@ -4,7 +4,7 @@
 [![Docker Automated build](https://img.shields.io/docker/automated/naoto0822/zetasql-ast-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-ast-server/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/naoto0822/zetasql-ast-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-ast-server/)
 
-zetasql-ast-server is analyzing SQL using [ZetaSQL](https://github.com/google/zetasql).
+zetasql-ast-server is parsing/analyzing ZetaSQL using [google/zetasql](https://github.com/google/zetasql) framework.
 
 ## Usage
 
