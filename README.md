@@ -44,6 +44,7 @@ OK
 
 ## Features
 
+- [ ] Format sql
 - [ ] Analyze SQL
 - [ ] AST to JSON (DebugString to struct)
 - [ ] cli tool
@@ -51,6 +52,6 @@ OK
 
 ## References
 
-- [gogle/zetasql](https://github.com/google/zetasql)
+- [google/zetasql](https://github.com/google/zetasql)
 - [ebendutoit/zetasql-analyzer-server](https://github.com/ebendutoit/zetasql-analyzer-server)
 - [apstndb/zetasql-format-server](https://github.com/apstndb/zetasql-format-server)
