@@ -3,10 +3,6 @@
 #include <string.h>
 #include "zetasql/public/sql_formatter.h"
 #include "zetasql/public/parse_helpers.h"
-#include "zetasql/public/analyzer.h"
-#include "zetasql/public/simple_catalog.h"
-#include "zetasql/public/options.pb.h"
-#include "zetasql/public/analyzer_options.h"
 #include "zetasql/parser/parser.h"
 #include "absl/status/status.h"
 #include "absl/memory/memory.h"

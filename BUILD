@@ -23,9 +23,6 @@ cc_library(
 	  deps=[
         "@com_google_zetasql//zetasql/public:sql_formatter",
         "@com_google_zetasql//zetasql/public:parse_helpers",
-        "@com_google_zetasql//zetasql/public:analyzer",
-        "@com_google_zetasql//zetasql/public:analyzer_options",
-        "@com_google_zetasql//zetasql/public:simple_catalog",
     ],
 )
 
