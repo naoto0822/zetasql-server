@@ -12,9 +12,9 @@ WORKDIR /work
 # cache build
 COPY .bazelrc CROSSTOOL WORKSPACE /work/
 
-RUN bazel build '@com_google_zetasql//zetasql/public:sql_formatter'
-RUN bazel build '@com_google_zetasql//zetasql/public:parse_helpers'
-RUN bazel build '@com_google_zetasql//zetasql/public:analyzer'
+#RUN bazel build '@com_google_zetasql//zetasql/public:sql_formatter'
+#RUN bazel build '@com_google_zetasql//zetasql/public:parse_helpers'
+#RUN bazel build '@com_google_zetasql//zetasql/public:analyzer'
 
 COPY BUILD *.cc *.h *.go /work/
 RUN cd /work && bazel build ...
