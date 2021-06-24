@@ -44,11 +44,11 @@ OK
 
 ## Features
 
-- [ ] Format sql
+- [x] Format sql
 - [ ] Analyze SQL
 - [ ] AST to JSON (DebugString to struct)
-- [ ] cli tool
-- [ ] Hosting VPS or Web assembly
+- [ ] ~cli tool~ (-> new project)
+- [ ] ~Hosting VPS or Web assembly~
 - [ ] gazelle
 - [ ] zetasql base image
 
