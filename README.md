@@ -30,6 +30,27 @@ QueryStatement [0-8]
       SelectList [7-8]
         SelectColumn [7-8]
           IntLiteral(1) [7-8]
+
+$ curl -X POST -H 'Content-type: application/text' --data 'SEL 1' http://localhost:8080/parse
+generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [zetasql.ErrorLocation] { line: 1 column: 1 }
+```
+
+### `/format`
+
+Format SQL.
+
+- example
+```sh
+$ curl -X POST -H 'Content-type: application/text' --data 'SELECT * FROM hoge' http://localhost:8080/format
+SELECT
+  *
+FROM
+  hoge;
+
+$ curl -X POST -H 'Content-type: application/text' --data 'SEL 1' http://localhost:8080/format
+generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [at 1:1]
+SEL 1
+^
 ```
 
 ### `/valid`
@@ -40,6 +61,9 @@ Returns whether it is correct.
 ```sh
 $ curl -X POST -H 'Content-type: application/text' --data 'SELECT 1' http://localhost:8080/valid
 OK
+
+$ curl -X POST -H 'Content-type: application/text' --data 'SEL 1' http://localhost:8080/valid
+generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [zetasql.ErrorLocation] { line: 1 column: 1 }
 ```
 
 ## Features
