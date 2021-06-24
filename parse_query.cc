@@ -34,6 +34,16 @@ char *parseStatement(char *sql) {
   return strdup(ast_str.c_str());
 }
 
+char *formatSQL(char *sql) {
+  std::string formatted_sql;
+  const absl::Status status = zetasql::FormatSql(sql, &formatted_sql);
+  if (!status.ok()) {
+    std::string status_str = zetasql::internal::StatusToString(status);
+    return strdup(status_str.c_str());
+  }
+  return strdup(formatted_sql.c_str());
+}
+
 //char *analyzeStatement(char* sql) {
 //  std::unique_ptr<const zetasql::AnalyzerOutput> analyzer_output;
 //

@@ -14,6 +14,7 @@ func main() {
 
 	http.HandleFunc("/valid", validHandler)
 	http.HandleFunc("/parse", parseHandler)
+	http.HandleFunc("/format", formatHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -49,4 +50,18 @@ func parseHandler(w http.ResponseWriter, r *http.Request) {
 	astOrErr := ParseStatement(ctx, string(b))
 
 	w.Write([]byte(astOrErr))
+}
+
+func formatHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil || len(b) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	sqlOrErr := FormatSQL(ctx, string(b))
+
+	w.Write([]byte(sqlOrErr))
 }
