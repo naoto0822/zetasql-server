@@ -49,6 +49,8 @@ OK
 - [ ] AST to JSON (DebugString to struct)
 - [ ] cli tool
 - [ ] Hosting VPS or Web assembly
+- [ ] gazelle
+- [ ] zetasql base image
 
 ## References
 
