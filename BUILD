@@ -2,6 +2,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
+# gazelle:prefix github.com/naoto0822/zetasql-ast-server
 # gazelle:exclude parse_query.cc
 # gazelle:exclude parse_query.h
 gazelle(name = "gazelle")
@@ -35,5 +36,6 @@ go_library(
         "zetasql.go",
     ],
     cgo = True,
+    # importpath = "github.com/naoto0822/zetasql-ast-server",
     visibility = ["//visibility:private"],
 )
