@@ -7,10 +7,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/naoto0822/zetasql-ast-server/pkg"
 )
 
 func main() {
-	fmt.Println("zetasql-ast-server latest")
+	fmt.Printf("zetasql-ast-server:%s\n", pkg.Version)
 
 	http.HandleFunc("/valid", validHandler)
 	http.HandleFunc("/parse", parseHandler)

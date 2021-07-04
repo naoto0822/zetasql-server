@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "entity",
+    srcs = ["entity.go"],
+    importpath = "github.com/naoto0822/zetasql-ast-server/pkg/entity",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "entity_test",
+    srcs = ["entity_test.go"],
+    embed = [":entity"],
+)

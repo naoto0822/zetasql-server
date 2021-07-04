@@ -38,4 +38,5 @@ go_library(
     cgo = True,
     importpath = "github.com/naoto0822/zetasql-ast-server",
     visibility = ["//visibility:private"],
+    deps = ["//pkg"],
 )
