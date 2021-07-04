@@ -36,6 +36,6 @@ go_library(
         "zetasql.go",
     ],
     cgo = True,
-    # importpath = "github.com/naoto0822/zetasql-ast-server",
+    importpath = "github.com/naoto0822/zetasql-ast-server",
     visibility = ["//visibility:private"],
 )
