@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "pkg",
+    srcs = ["entity.go"],
+    importpath = "github.com/naoto0822/zetasql-ast-server/pkg",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "lib_test",
+    srcs = ["entity_test.go"],
+    embed = [":pkg"],
+)
+
+go_test(
+    name = "pkg_test",
+    srcs = ["entity_test.go"],
+    embed = [":pkg"],
+)

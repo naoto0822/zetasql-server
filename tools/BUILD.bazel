@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "lib",
+    srcs = ["e2e_run.go"],
+    importpath = "",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "tools",
+    embed = [":tools_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "tools_lib",
+    srcs = ["e2e_run.go"],
+    importpath = "github.com/naoto0822/zetasql-ast-server/tools",
+    visibility = ["//visibility:private"],
+)

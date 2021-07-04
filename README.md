@@ -76,6 +76,11 @@ generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [zetasql.Er
 - [ ] gazelle
 - [ ] zetasql base image
 
+## Dependencies
+
+- bazel
+
+
 ## References
 
 - [google/zetasql](https://github.com/google/zetasql)
