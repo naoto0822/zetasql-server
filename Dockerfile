@@ -10,13 +10,14 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 WORKDIR /work
 
 # cache build
-COPY .bazelrc CROSSTOOL WORKSPACE /work/
+#COPY .bazelrc CROSSTOOL WORKSPACE /work/
 
 #RUN bazel build '@com_google_zetasql//zetasql/public:sql_formatter'
 #RUN bazel build '@com_google_zetasql//zetasql/public:parse_helpers'
 #RUN bazel build '@com_google_zetasql//zetasql/public:analyzer'
 
-COPY BUILD *.cc *.h *.go /work/
+#COPY BUILD *.cc *.h *.go pkg /work/
+ADD . /work/
 RUN cd /work && bazel build :zetasql-ast-server
 
 RUN ls /work

@@ -9,3 +9,5 @@ clean:
 
 run:
 	bazel run //:zetasql-ast-server
+
+.PHONY: gazelle build clean run
