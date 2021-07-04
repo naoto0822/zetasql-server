@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  release:
+    types: [published]
 
 env:
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -22,6 +24,15 @@ jobs:
       with:
         go-version: 1.15
 
+    - name: Set env
+      run: |
+        if [ "${{ github.event_name }}" = 'release' ]; then
+            export TAG="${{ github.event.release.tag_name }}"
+        else
+            export TAG="latest"
+        fi
+        echo "TAG=${TAG}" >> ${GITHUB_ENV}
+
     - name: Build and Push
       env:
         DOCKER_BUILDKIT: 1
@@ -30,8 +41,8 @@ jobs:
       run: |
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
         docker build -t zetasql-ast-server --cache-from=naoto0822/zetasql-ast-server:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
-        docker tag zetasql-ast-server naoto0822/zetasql-ast-server:latest
-        docker push naoto0822/zetasql-ast-server:latest
+        docker tag zetasql-ast-server naoto0822/zetasql-ast-server:${TAG}
+        docker push naoto0822/zetasql-ast-server:${TAG}
 
     - name: Slack Notification on Success
       if: success()
