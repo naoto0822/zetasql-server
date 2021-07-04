@@ -1,3 +1,2 @@
-local-run:
-	go run main.go
-
+gazelle:
+	bazel run //:gazelle
