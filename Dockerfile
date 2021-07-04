@@ -21,8 +21,8 @@ RUN cd /work && bazel build :zetasql-ast-server
 
 RUN ls /work
 RUN ls /work/bazel-out
-RUN ls /work/bazel-out/k8-fastbuild-ST-77d62fd15d15fc7ab69058da1afba983b16c05cd7d7cd724cce6b37445e7a9d1/bin
+RUN ls /work/bazel-out/k8-fastbuild/bin
 
 FROM gcr.io/distroless/cc
-COPY --from=build-env /work/bazel-out/k8-fastbuild-ST-77d62fd15d15fc7ab69058da1afba983b16c05cd7d7cd724cce6b37445e7a9d1/bin/zetasql-ast-server_/zetasql-ast-server ./
+COPY --from=build-env /work/bazel-out/k8-fastbuild/bin/zetasql-ast-server_/zetasql-ast-server ./
 ENTRYPOINT ["./zetasql-ast-server"]
