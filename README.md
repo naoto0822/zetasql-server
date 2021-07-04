@@ -4,7 +4,7 @@
 [![Docker Automated build](https://img.shields.io/docker/automated/naoto0822/zetasql-ast-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-ast-server/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/naoto0822/zetasql-ast-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-ast-server/)
 
-zetasql-ast-server is parsing/analyzing ZetaSQL using [google/zetasql](https://github.com/google/zetasql) framework.
+[WIP] zetasql-ast-server is parsing/analyzing ZetaSQL using [google/zetasql](https://github.com/google/zetasql) framework.
 
 ## Usage
 
@@ -69,17 +69,17 @@ generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [zetasql.Er
 ## Features
 
 - [x] Format sql
+- [ ] Multi Statements
 - [ ] Analyze SQL
 - [ ] AST to JSON (DebugString to struct)
-- [ ] ~cli tool~ (-> new project)
+- [ ] cli tool (-> new repository!)
 - [ ] ~Hosting VPS or Web assembly~
-- [ ] gazelle
+- [x] gazelle
 - [ ] zetasql base image
 
 ## Dependencies
 
 - bazel
-
 
 ## References
 
