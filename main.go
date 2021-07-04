@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	fmt.Println("zetasql-ast-server v0.0.1")
+	fmt.Println("zetasql-ast-server latest")
 
 	http.HandleFunc("/valid", validHandler)
 	http.HandleFunc("/parse", parseHandler)
