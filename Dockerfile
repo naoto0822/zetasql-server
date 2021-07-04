@@ -17,7 +17,7 @@ COPY .bazelrc CROSSTOOL WORKSPACE /work/
 #RUN bazel build '@com_google_zetasql//zetasql/public:analyzer'
 
 COPY BUILD *.cc *.h *.go /work/
-RUN cd /work && bazel build ...
+RUN cd /work && bazel build :zetasql-ast-server
 
 RUN ls /work/bazel-out
 RUN ls /work/bazel-out/k8-fastbuild-ST-77d62fd15d15fc7ab69058da1afba983b16c05cd7d7cd724cce6b37445e7a9d1/bin
