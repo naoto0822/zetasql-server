@@ -72,7 +72,7 @@ generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [zetasql.Er
 - [ ] Multi Statements
 - [ ] Analyze SQL
 - [ ] AST to JSON (DebugString to struct)
-- [ ] cli tool (-> new repository!)
+- [x] cli tool -> https://github.com/naoto0822/zetasql-cli (still private...)
 - [ ] ~Hosting VPS or Web assembly~
 - [x] gazelle
 - [ ] zetasql base image
