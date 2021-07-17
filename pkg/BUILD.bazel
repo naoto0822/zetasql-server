@@ -3,6 +3,6 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "pkg",
     srcs = ["version.go"],
-    importpath = "github.com/naoto0822/zetasql-ast-server/pkg",
+    importpath = "github.com/naoto0822/zetasql-server/pkg",
     visibility = ["//visibility:public"],
 )

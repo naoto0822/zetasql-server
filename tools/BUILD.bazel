@@ -16,6 +16,6 @@ go_binary(
 go_library(
     name = "tools_lib",
     srcs = ["e2e_run.go"],
-    importpath = "github.com/naoto0822/zetasql-ast-server/tools",
+    importpath = "github.com/naoto0822/zetasql-server/tools",
     visibility = ["//visibility:private"],
 )

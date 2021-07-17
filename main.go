@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/naoto0822/zetasql-ast-server/pkg"
+	"github.com/naoto0822/zetasql-server/pkg"
 )
 
 func main() {
-	fmt.Printf("zetasql-ast-server:%s\n", pkg.Version)
+	fmt.Printf("zetasql-server:%s\n", pkg.Version)
 
 	http.HandleFunc("/valid", validHandler)
 	http.HandleFunc("/parse", parseHandler)

@@ -40,15 +40,15 @@ jobs:
         DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
-        docker build -t zetasql-ast-server --cache-from=naoto0822/zetasql-ast-server:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
-        docker tag zetasql-ast-server naoto0822/zetasql-ast-server:${TAG}
-        docker push naoto0822/zetasql-ast-server:${TAG}
+        docker build -t zetasql-server --cache-from=naoto0822/zetasql-server:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
+        docker tag zetasql-server naoto0822/zetasql-server:${TAG}
+        docker push naoto0822/zetasql-server:${TAG}
 
     - name: Slack Notification on Success
       if: success()
       uses: rtCamp/action-slack-notify@v2.0.2
       env:
-        SLACK_CHANNEL: zetasql-ast-server-ci
+        SLACK_CHANNEL: zetasql-server-ci
         SLACK_TITLE: Build Success
         SLACK_COLOR: good
 
@@ -56,6 +56,6 @@ jobs:
       uses: rtCamp/action-slack-notify@v2.0.2
       if: failure()
       env:
-        SLACK_CHANNEL: zetasql-ast-server-ci
+        SLACK_CHANNEL: zetasql-server-ci
         SLACK_TITLE: Build Failure
         SLACK_COLOR: danger

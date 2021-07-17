@@ -1,16 +1,16 @@
-# zetasql-ast-server
+# zetasql-server
 
-[![Go](https://github.com/naoto0822/zetasql-ast-server/actions/workflows/go.yml/badge.svg)](https://github.com/naoto0822/zetasql-ast-server/actions/workflows/go.yml)
-[![Docker Automated build](https://img.shields.io/docker/automated/naoto0822/zetasql-ast-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-ast-server/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/naoto0822/zetasql-ast-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-ast-server/)
+[![Go](https://github.com/naoto0822/zetasql-server/actions/workflows/go.yml/badge.svg)](https://github.com/naoto0822/zetasql-server/actions/workflows/go.yml)
+[![Docker Automated build](https://img.shields.io/docker/automated/naoto0822/zetasql-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-server/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/naoto0822/zetasql-server.svg?style=flat-square)](https://hub.docker.com/r/naoto0822/zetasql-server/)
 
-[WIP] zetasql-ast-server is parsing/analyzing ZetaSQL using [google/zetasql](https://github.com/google/zetasql) framework.
+[WIP] zetasql-server is parsing/analyzing ZetaSQL using [google/zetasql](https://github.com/google/zetasql) framework.
 
 ## Usage
 
 ```sh
-$ docker pull naoto0822/zetasql-ast-server:latest
-$ docker run -p 8080:8080 -t naoto0822/zetasql-ast-server
+$ docker pull naoto0822/zetasql-server:latest
+$ docker run -p 8080:8080 -t naoto0822/zetasql-server
 ```
 
 ## API

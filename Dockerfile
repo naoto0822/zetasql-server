@@ -18,12 +18,12 @@ WORKDIR /work
 
 #COPY BUILD *.cc *.h *.go pkg /work/
 ADD . /work/
-RUN cd /work && bazel build :zetasql-ast-server
+RUN cd /work && bazel build :zetasql-server
 
 RUN ls /work
 RUN ls /work/bazel-out
 RUN ls /work/bazel-out/k8-fastbuild/bin
 
 FROM gcr.io/distroless/cc
-COPY --from=build-env /work/bazel-out/k8-fastbuild/bin/zetasql-ast-server_/zetasql-ast-server ./
-ENTRYPOINT ["./zetasql-ast-server"]
+COPY --from=build-env /work/bazel-out/k8-fastbuild/bin/zetasql-server_/zetasql-server ./
+ENTRYPOINT ["./zetasql-server"]

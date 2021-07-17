@@ -2,17 +2,17 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
-# gazelle:prefix github.com/naoto0822/zetasql-ast-server
+# gazelle:prefix github.com/naoto0822/zetasql-server
 # gazelle:exclude parse_query.cc
 # gazelle:exclude parse_query.h
 gazelle(name = "gazelle")
 
 go_binary(
-    name = "zetasql-ast-server",
+    name = "zetasql-server",
     cdeps = [
         ":zetasql-parser",
     ],
-    embed = [":zetasql-ast-server_lib"],
+    embed = [":zetasql-server_lib"],
     pure = "off",
     visibility = ["//visibility:public"],
 )
@@ -30,13 +30,13 @@ cc_library(
 )
 
 go_library(
-    name = "zetasql-ast-server_lib",
+    name = "zetasql-server_lib",
     srcs = [
         "main.go",
         "zetasql.go",
     ],
     cgo = True,
-    importpath = "github.com/naoto0822/zetasql-ast-server",
+    importpath = "github.com/naoto0822/zetasql-server",
     visibility = ["//visibility:private"],
     deps = ["//pkg"],
 )
