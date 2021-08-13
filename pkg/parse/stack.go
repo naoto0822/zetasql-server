@@ -4,7 +4,7 @@ type Stack struct {
 	data []*SQLExpression
 }
 
-func NewInsStack() *Stack {
+func NewStack() *Stack {
 	data := make([]*SQLExpression, 0, 0)
 
 	return &Stack{
@@ -12,7 +12,6 @@ func NewInsStack() *Stack {
 	}
 }
 
-// Pop implements Stack
 func (s *Stack) Pop() *SQLExpression {
 	if len(s.data) == 0 {
 		return nil

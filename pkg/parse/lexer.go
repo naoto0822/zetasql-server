@@ -43,10 +43,12 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) genPosition() Position {
-	return Position{Line: l.line + 1, Column: l.readPosition - l.lineHead + 1}
+	return Position{
+		Line:   l.line + 1,
+		Column: l.readPosition - l.lineHead + 1,
+	}
 }
 
-// NextToken return next token
 func (l *Lexer) NextToken() (int, string, Position) {
 	var (
 		token   int
@@ -56,21 +58,47 @@ func (l *Lexer) NextToken() (int, string, Position) {
 	position := l.genPosition()
 
 	switch ch := l.ch; {
+	// INDENT
 	case isWhiteSpace(ch):
 		indent, count := l.readIndent()
 		if count == 1 {
-			//l.readChar()
 			return l.NextToken()
 		} else {
 			token = INDENT
 			literal = indent
 		}
+	// IDENT
 	case isLetter(ch):
 		token = IDENT
 		literal = l.readIdentifier()
+	// VALUE
+	case ch == '(':
+		token = VALUE
+		literal = l.readValue()
+		l.readChar()
+	// [
+	case ch == '[':
+		//token = LBRA
+		token = int(ch)
+		literal = "["
+		l.readChar()
+	// NUMBER
 	case isDigit(ch):
 		token = NUMBER
 		literal = l.readNumber()
+	// -
+	case ch == '-':
+		//token = HYPHEN
+		token = int(ch)
+		literal = "-"
+		l.readChar()
+	// ]
+	case ch == ']':
+		//token = RBRA
+		token = int(ch)
+		literal = "]"
+		l.readChar()
+	// LineBREAK
 	case isBreak(ch):
 		token = LINE_BREAK
 		literal = "LF"
@@ -80,21 +108,40 @@ func (l *Lexer) NextToken() (int, string, Position) {
 		case 0:
 			token = EOF
 			literal = ""
-		case '[', ']', '(', ')', ';', '+', '-', '*', '%', '=':
-			token = int(ch)
-			literal = string(ch)
 		}
-
 		l.readChar()
 	}
 
 	return token, literal, position
 }
 
+func (l *Lexer) readIndent() (string, int) {
+	position := l.position
+	count := 0
+	for isWhiteSpace(l.ch) {
+		l.readChar()
+		count++
+	}
+
+	return l.input[position:l.position], count
+}
+
 func (l *Lexer) readIdentifier() string {
 	position := l.position
-	for isLetter(l.ch) || isDigit(l.ch) {
+	for isLetter(l.ch) {
 		l.readChar()
+	}
+
+	return l.input[position:l.position]
+}
+
+func (l *Lexer) readValue() string {
+	position := l.position + 1
+	for {
+		l.readChar()
+		if isEndValue(l.ch) || l.ch == 0 {
+			break
+		}
 	}
 
 	return l.input[position:l.position]
@@ -109,49 +156,26 @@ func (l *Lexer) readNumber() string {
 	return l.input[position:l.position]
 }
 
-func (l *Lexer) readString() string {
-	position := l.position + 1
-	for {
-		l.readChar()
-		if l.ch == '"' || l.ch == 0 {
-			break
-		}
-	}
-
-	return l.input[position:l.position]
+func isWhiteSpace(ch byte) bool {
+	return ch == ' ' || ch == '\t'
 }
 
-func (l *Lexer) readIndent() (string, int) {
-	position := l.position
-	count := 0
-	for isWhiteSpace(l.ch) {
-		l.readChar()
-		count++
-	}
-
-	return l.input[position:l.position], count
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z'
 }
 
-func (l *Lexer) peekChar() byte {
-	if l.readPosition >= len(l.input) {
-		return 0
-	}
+func isStartValue(ch byte) bool {
+	return ch == '('
+}
 
-	return l.input[l.readPosition]
+func isEndValue(ch byte) bool {
+	return ch == ')'
 }
 
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
 
-func isLetter(ch byte) bool {
-	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
-}
-
 func isBreak(ch byte) bool {
 	return ch == '\n'
-}
-
-func isWhiteSpace(ch byte) bool {
-	return ch == ' ' || ch == '\t'
 }

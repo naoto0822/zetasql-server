@@ -3,6 +3,7 @@ package parse
 
 import (
 	"log"
+	"fmt"
 )
 
 type Token struct {
@@ -11,7 +12,7 @@ type Token struct {
 	pos Position
 }
 
-var current_depth = 0
+var currentDepth = 0
 
 %}
 
@@ -25,7 +26,7 @@ var current_depth = 0
 %type<statements> statements
 %type<statement> statement
 %type<expr> expr
-%token<tok> EOF IDENT NUMBER INDENT LINE_BREAK
+%token<tok> EOF IDENT NUMBER INDENT LINE_BREAK LBRA RBRA HYPHEN VALUE
 
 %%
 
@@ -49,137 +50,163 @@ statement
 	: expr LINE_BREAK
 	{
 		if l, isLexerWrapper := yylex.(*LexerWrapper); isLexerWrapper {
-			sqlExpr := $1.(*SQLExpression)
-
-			depth := sqlExpr.Depth
 			$$ = &ExpressionStatement{Expression: $1}
-			se := &SQLExpression{Literal: sqlExpr.Literal, Value: sqlExpr.Value, Depth: depth}
+
+			sqlExpr := $1.(*SQLExpression)
+			depth := sqlExpr.Depth
 			if depth == 0 {
-				l.Stack.Push(se)
-			} else if current_depth > depth {
-					v := current_depth - depth
-					for i := 0; i < v+1; i++ {
-							l.Stack.Pop()
-					}
-					node := l.Stack.Pop()
-					node.Expressions = append(node.Expressions, se)
+				l.Stack.Push(sqlExpr)
+			} else if currentDepth > depth {
+				v := currentDepth - depth
+				for i := 0; i < v+1; i++ {
+					l.Stack.Pop()
+				}
+				node := l.Stack.Pop()
+				node.Expressions = append(node.Expressions, sqlExpr)
 
-					l.Stack.Push(node)
-					l.Stack.Push(se)
+				l.Stack.Push(node)
+				l.Stack.Push(sqlExpr)
 
-					current_depth = depth
+				currentDepth = depth
 			} else {
-					parent := l.Stack.Pop()
-					if parent != nil {
-						parent.Expressions = append(parent.Expressions, se)
-						l.Stack.Push(parent)
-					}
-					l.Stack.Push(se)
+				parent := l.Stack.Pop()
+				if parent != nil {
+					parent.Expressions = append(parent.Expressions, sqlExpr)
+					l.Stack.Push(parent)
+				}
+				l.Stack.Push(sqlExpr)
 
-					current_depth++
+				currentDepth++
 			}
 		}
 	}
 	| expr ';'
 	{
 		if l, isLexerWrapper := yylex.(*LexerWrapper); isLexerWrapper {
-			sqlExpr := $1.(*SQLExpression)
-
-			depth := sqlExpr.Depth
 			$$ = &ExpressionStatement{Expression: $1}
-			se := &SQLExpression{Literal: sqlExpr.Literal, Value: sqlExpr.Value, Depth: depth}
-			if depth == 0 {
-				l.Stack.Push(se)
-			} else if current_depth > depth {
-					v := current_depth - depth
-					for i := 0; i < v+1; i++ {
-							l.Stack.Pop()
-					}
-					node := l.Stack.Pop()
-					node.Expressions = append(node.Expressions, se)
 
-					l.Stack.Push(node)
+			sqlExpr := $1.(*SQLExpression)
+			depth := sqlExpr.Depth
+			if depth == 0 {
+				l.Stack.Push(sqlExpr)
+			} else if currentDepth > depth {
+				v := currentDepth - depth
+				for i := 0; i < v+1; i++ {
+						l.Stack.Pop()
+				}
+				node := l.Stack.Pop()
+				node.Expressions = append(node.Expressions, sqlExpr)
+
+				l.Stack.Push(node)
 			} else {
-					parent := l.Stack.Pop()
-					if parent != nil {
-						parent.Expressions = append(parent.Expressions, se)
-						l.Stack.Push(parent)
-					}
-					l.Stack.Push(se)
+				parent := l.Stack.Pop()
+				if parent != nil {
+					parent.Expressions = append(parent.Expressions, sqlExpr)
+					l.Stack.Push(parent)
+				}
+				l.Stack.Push(sqlExpr)
 			}
 		}
 	}
 
 expr
-	: NUMBER
-	{
-		$$ = &NumberExpression{Literal: $1.lit}
-	}
-	| IDENT
-	{
-		$$ = &IdentifierExpression{Literal: $1.lit}
-	}
-	| INDENT
-	{
-		$$ = &IndentExpression{Literal: $1.lit}
-	}
-	| LINE_BREAK
+	: LINE_BREAK
 	{
 		$$ = &LineBreakExpression{Literal: $1.lit}
 	}
-	| IDENT '[' expr '-' expr ']'
+	| IDENT '[' NUMBER '-' NUMBER ']'
 	{
-		$$ = &SQLExpression{Literal: $1.lit,  Depth: 0}
+		$$ = &SQLExpression{
+			Literal: $1.lit,
+			Value: "",
+			PositionExpression: &PositionExpression{
+				Start: $3.lit,
+				End:   $5.lit,
+			},
+			Depth: 0,
+		}
 	}
-	| IDENT '(' expr ')' '[' expr '-' expr ']'
+	| IDENT VALUE '[' NUMBER '-' NUMBER ']'
 	{
-		$$ = &SQLExpression{Literal: $1.lit, Value: $3, Depth: 0}
+		$$ = &SQLExpression{
+			Literal: $1.lit,
+			Value: $2.lit,
+			PositionExpression: &PositionExpression{
+				Start: $4.lit,
+				End:   $6.lit,
+			},
+			Depth: 0,
+		}
 	}
-	| INDENT IDENT '[' expr '-' expr ']'
+	| INDENT IDENT '[' NUMBER '-' NUMBER ']'
 	{
 		depth := len($1.lit) / 2
-		$$ = &SQLExpression{Literal: $2.lit, Depth: depth}
+		$$ = &SQLExpression{
+			Literal: $2.lit,
+			Value: "",
+			PositionExpression: &PositionExpression{
+				Start: $4.lit,
+				End:   $6.lit,
+			},
+			Depth: depth,
+		}
 	}
-	| INDENT IDENT '(' expr ')' '[' expr '-' expr ']'
+	| INDENT IDENT VALUE '[' NUMBER '-' NUMBER ']'
 	{
 		depth := len($1.lit) / 2
-		$$ = &SQLExpression{Literal: $2.lit, Value: $4, Depth: depth}
+		$$ = &SQLExpression{
+			Literal: $2.lit,
+			Value: $3.lit,
+			PositionExpression: &PositionExpression{
+				Start: $5.lit,
+				End:   $7.lit,
+			},
+			Depth: depth,
+		}
 	}
 
 %%
 
 type LexerWrapper struct {
-	s          *Lexer
+	l          *Lexer
 	recentLit  string
 	recentPos  Position
 	statements []Statement
-	Stack *Stack
+	Stack      *Stack
 }
 
-func (l *LexerWrapper) Lex(lval *yySymType) int {
-	tok, lit, pos := l.s.NextToken()
+func (w *LexerWrapper) Lex(lval *yySymType) int {
+	tok, lit, pos := w.l.NextToken()
 	if tok == EOF {
 		return 0
 	}
-	lval.tok = Token{tok: tok, lit: lit, pos: pos}
-	l.recentLit = lit
-	l.recentPos = pos
+
+	fmt.Println(lit)
+
+	lval.tok = Token{
+		tok: tok,
+		lit: lit,
+		pos: pos,
+	}
+	w.recentLit = lit
+	w.recentPos = pos
 	return tok
 }
 
-func (l *LexerWrapper) Error(e string) {
-	log.Fatalf("Line %d, Column %d: %q %s",
-		l.recentPos.Line, l.recentPos.Column, l.recentLit, e)
+func (w *LexerWrapper) Error(e string) {
+	log.Fatalf("Line %d, Column %d, Lit: %s, Error: %s",
+		w.recentPos.Line, w.recentPos.Column, w.recentLit, e)
 }
 
-func Parse(s *Lexer) *Stack {
-	l := LexerWrapper{
-		s: s,
+func Parse(l *Lexer) *Stack {
+	w := LexerWrapper{
+		l: l,
 		Stack: &Stack{},
 	}
-	if yyParse(&l) != 0 {
+
+	if yyParse(&w) != 0 {
 		panic("Parse error")
 	}
 
-	return l.Stack
+	return w.Stack
 }

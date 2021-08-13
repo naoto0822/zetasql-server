@@ -1,0 +1,255 @@
+
+state 0
+	$accept: .statements $end 
+	statements: .    (1)
+
+	IDENT  shift 5
+	INDENT  shift 6
+	LINE_BREAK  shift 4
+	.  reduce 1 (src line 33)
+
+	statements  goto 1
+	statement  goto 2
+	expr  goto 3
+
+state 1
+	$accept:  statements.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	statements:  statement.statements 
+	statements: .    (1)
+
+	IDENT  shift 5
+	INDENT  shift 6
+	LINE_BREAK  shift 4
+	.  reduce 1 (src line 33)
+
+	statements  goto 7
+	statement  goto 2
+	expr  goto 3
+
+state 3
+	statement:  expr.LINE_BREAK 
+	statement:  expr.';' 
+
+	LINE_BREAK  shift 8
+	';'  shift 9
+	.  error
+
+
+state 4
+	expr:  LINE_BREAK.    (5)
+
+	.  reduce 5 (src line 112)
+
+
+state 5
+	expr:  IDENT.'[' NUMBER '-' NUMBER ']' 
+	expr:  IDENT.VALUE '[' NUMBER '-' NUMBER ']' 
+
+	VALUE  shift 11
+	'['  shift 10
+	.  error
+
+
+state 6
+	expr:  INDENT.IDENT '[' NUMBER '-' NUMBER ']' 
+	expr:  INDENT.IDENT VALUE '[' NUMBER '-' NUMBER ']' 
+
+	IDENT  shift 12
+	.  error
+
+
+state 7
+	statements:  statement statements.    (2)
+
+	.  reduce 2 (src line 41)
+
+
+state 8
+	statement:  expr LINE_BREAK.    (3)
+
+	.  reduce 3 (src line 49)
+
+
+state 9
+	statement:  expr ';'.    (4)
+
+	.  reduce 4 (src line 83)
+
+
+state 10
+	expr:  IDENT '['.NUMBER '-' NUMBER ']' 
+
+	NUMBER  shift 13
+	.  error
+
+
+state 11
+	expr:  IDENT VALUE.'[' NUMBER '-' NUMBER ']' 
+
+	'['  shift 14
+	.  error
+
+
+state 12
+	expr:  INDENT IDENT.'[' NUMBER '-' NUMBER ']' 
+	expr:  INDENT IDENT.VALUE '[' NUMBER '-' NUMBER ']' 
+
+	VALUE  shift 16
+	'['  shift 15
+	.  error
+
+
+state 13
+	expr:  IDENT '[' NUMBER.'-' NUMBER ']' 
+
+	'-'  shift 17
+	.  error
+
+
+state 14
+	expr:  IDENT VALUE '['.NUMBER '-' NUMBER ']' 
+
+	NUMBER  shift 18
+	.  error
+
+
+state 15
+	expr:  INDENT IDENT '['.NUMBER '-' NUMBER ']' 
+
+	NUMBER  shift 19
+	.  error
+
+
+state 16
+	expr:  INDENT IDENT VALUE.'[' NUMBER '-' NUMBER ']' 
+
+	'['  shift 20
+	.  error
+
+
+state 17
+	expr:  IDENT '[' NUMBER '-'.NUMBER ']' 
+
+	NUMBER  shift 21
+	.  error
+
+
+state 18
+	expr:  IDENT VALUE '[' NUMBER.'-' NUMBER ']' 
+
+	'-'  shift 22
+	.  error
+
+
+state 19
+	expr:  INDENT IDENT '[' NUMBER.'-' NUMBER ']' 
+
+	'-'  shift 23
+	.  error
+
+
+state 20
+	expr:  INDENT IDENT VALUE '['.NUMBER '-' NUMBER ']' 
+
+	NUMBER  shift 24
+	.  error
+
+
+state 21
+	expr:  IDENT '[' NUMBER '-' NUMBER.']' 
+
+	']'  shift 25
+	.  error
+
+
+state 22
+	expr:  IDENT VALUE '[' NUMBER '-'.NUMBER ']' 
+
+	NUMBER  shift 26
+	.  error
+
+
+state 23
+	expr:  INDENT IDENT '[' NUMBER '-'.NUMBER ']' 
+
+	NUMBER  shift 27
+	.  error
+
+
+state 24
+	expr:  INDENT IDENT VALUE '[' NUMBER.'-' NUMBER ']' 
+
+	'-'  shift 28
+	.  error
+
+
+state 25
+	expr:  IDENT '[' NUMBER '-' NUMBER ']'.    (6)
+
+	.  reduce 6 (src line 117)
+
+
+state 26
+	expr:  IDENT VALUE '[' NUMBER '-' NUMBER.']' 
+
+	']'  shift 29
+	.  error
+
+
+state 27
+	expr:  INDENT IDENT '[' NUMBER '-' NUMBER.']' 
+
+	']'  shift 30
+	.  error
+
+
+state 28
+	expr:  INDENT IDENT VALUE '[' NUMBER '-'.NUMBER ']' 
+
+	NUMBER  shift 31
+	.  error
+
+
+state 29
+	expr:  IDENT VALUE '[' NUMBER '-' NUMBER ']'.    (7)
+
+	.  reduce 7 (src line 129)
+
+
+state 30
+	expr:  INDENT IDENT '[' NUMBER '-' NUMBER ']'.    (8)
+
+	.  reduce 8 (src line 141)
+
+
+state 31
+	expr:  INDENT IDENT VALUE '[' NUMBER '-' NUMBER.']' 
+
+	']'  shift 32
+	.  error
+
+
+state 32
+	expr:  INDENT IDENT VALUE '[' NUMBER '-' NUMBER ']'.    (9)
+
+	.  reduce 9 (src line 154)
+
+
+16 terminals, 4 nonterminals
+10 grammar rules, 33/16000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+53 working sets used
+memory: parser 5/240000
+0 extra closures
+31 shift entries, 1 exceptions
+4 goto entries
+2 entries saved by goto default
+Optimizer space used: output 32/240000
+32 table entries, 0 zero
+maximum spread: 16, maximum offset: 16

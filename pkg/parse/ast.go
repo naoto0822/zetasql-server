@@ -18,15 +18,27 @@ type (
 
 func (x *ExpressionStatement) statement() {}
 
+//
 type (
-	NumberExpression struct {
-		Literal string
-	}
-
 	IdentifierExpression struct {
 		Literal string
 	}
 
+	ValueExpression struct {
+		Literal string
+	}
+
+	NumberExpression struct {
+		Literal string
+	}
+
+	PositionExpression struct {
+		Start string
+		End   string
+	}
+)
+
+type (
 	IndentExpression struct {
 		Literal string
 	}
@@ -37,16 +49,11 @@ type (
 
 	SQLExpression struct {
 		Literal            string
-		Value              Expression
+		Value              string
 		PositionExpression *PositionExpression
 		Depth              int
 
 		Expressions []*SQLExpression
-	}
-
-	PositionExpression struct {
-		Start int
-		End   int
 	}
 )
 
@@ -55,3 +62,4 @@ func (x *IdentifierExpression) expression() {}
 func (x *IndentExpression) expression()     {}
 func (x *LineBreakExpression) expression()  {}
 func (x *SQLExpression) expression()        {}
+func (e *ValueExpression) expression()      {}
