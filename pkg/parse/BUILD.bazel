@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "parse",
+    srcs = [
+        "ast.go",
+        "lexer.go",
+        "stack.go",
+        "y.go",
+    ],
+    importpath = "github.com/naoto0822/zetasql-server/pkg/parse",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "parse_test",
+    srcs = ["parse_test.go"],
+    embed = [":parse"],
+)
