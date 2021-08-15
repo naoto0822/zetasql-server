@@ -8,7 +8,6 @@ import __yyfmt__ "fmt"
 //line parser.go.y:2
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -20,7 +19,7 @@ type Token struct {
 
 var currentDepth = 0
 
-//line parser.go.y:19
+//line parser.go.y:18
 type yySymType struct {
 	yys        int
 	statements []Statement
@@ -64,7 +63,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyInitialStackSize = 16
 
-//line parser.go.y:168
+//line parser.go.y:167
 
 type LexerWrapper struct {
 	l          *Lexer
@@ -79,8 +78,6 @@ func (w *LexerWrapper) Lex(lval *yySymType) int {
 	if tok == EOF {
 		return 0
 	}
-
-	fmt.Println(lit)
 
 	lval.tok = Token{
 		tok: tok,
@@ -108,6 +105,10 @@ func Parse(l *Lexer) *Stack {
 	}
 
 	return w.Stack
+}
+
+func Reset() {
+	currentDepth = 0
 }
 
 //line yacctab:1
@@ -522,7 +523,7 @@ yydefault:
 
 	case 1:
 		yyDollar = yyS[yypt-0 : yypt+1]
-//line parser.go.y:35
+//line parser.go.y:34
 		{
 			yyVAL.statements = nil
 			if l, isLexerWrapper := yylex.(*LexerWrapper); isLexerWrapper {
@@ -531,7 +532,7 @@ yydefault:
 		}
 	case 2:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line parser.go.y:42
+//line parser.go.y:41
 		{
 			yyVAL.statements = append([]Statement{yyDollar[1].statement}, yyDollar[2].statements...)
 			if l, isLexerWrapper := yylex.(*LexerWrapper); isLexerWrapper {
@@ -540,7 +541,7 @@ yydefault:
 		}
 	case 3:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line parser.go.y:51
+//line parser.go.y:50
 		{
 			if l, isLexerWrapper := yylex.(*LexerWrapper); isLexerWrapper {
 				yyVAL.statement = &ExpressionStatement{Expression: yyDollar[1].expr}
@@ -575,7 +576,7 @@ yydefault:
 		}
 	case 4:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line parser.go.y:84
+//line parser.go.y:83
 		{
 			if l, isLexerWrapper := yylex.(*LexerWrapper); isLexerWrapper {
 				yyVAL.statement = &ExpressionStatement{Expression: yyDollar[1].expr}
@@ -605,13 +606,13 @@ yydefault:
 		}
 	case 5:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line parser.go.y:114
+//line parser.go.y:113
 		{
 			yyVAL.expr = &LineBreakExpression{Literal: yyDollar[1].tok.lit}
 		}
 	case 6:
 		yyDollar = yyS[yypt-6 : yypt+1]
-//line parser.go.y:118
+//line parser.go.y:117
 		{
 			yyVAL.expr = &SQLExpression{
 				Literal: yyDollar[1].tok.lit,
@@ -625,7 +626,7 @@ yydefault:
 		}
 	case 7:
 		yyDollar = yyS[yypt-7 : yypt+1]
-//line parser.go.y:130
+//line parser.go.y:129
 		{
 			yyVAL.expr = &SQLExpression{
 				Literal: yyDollar[1].tok.lit,
@@ -639,7 +640,7 @@ yydefault:
 		}
 	case 8:
 		yyDollar = yyS[yypt-7 : yypt+1]
-//line parser.go.y:142
+//line parser.go.y:141
 		{
 			depth := len(yyDollar[1].tok.lit) / 2
 			yyVAL.expr = &SQLExpression{
@@ -654,7 +655,7 @@ yydefault:
 		}
 	case 9:
 		yyDollar = yyS[yypt-8 : yypt+1]
-//line parser.go.y:155
+//line parser.go.y:154
 		{
 			depth := len(yyDollar[1].tok.lit) / 2
 			yyVAL.expr = &SQLExpression{

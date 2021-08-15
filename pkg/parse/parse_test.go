@@ -6,7 +6,45 @@ import (
 	"testing"
 )
 
-func TestParseDebugString(t *testing.T) {
+// TODO: table test
+
+func TestParseDebugString1(t *testing.T) {
+	input := `QueryStatement [0-19]
+  Query [0-19]
+    Select [0-19]
+      SelectList [7-9]
+        SelectColumn [7-9]
+          PathExpression [7-9]
+            Identifier(id) [7-9]
+      FromClause [10-19]
+        TablePathExpression [15-19]
+          PathExpression [15-19]
+            Identifier(user) [15-19]
+`
+
+	lexer := NewLexer(input)
+	result := Parse(lexer)
+
+	size := result.Len()
+	for i := 0; i < size; i++ {
+		if result.Len() == 1 {
+			break
+		}
+		result.Pop()
+	}
+
+	top := result.Pop()
+	bytes, err := json.MarshalIndent(top, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(bytes))
+
+	Reset()
+}
+
+func TestParseDebugString2(t *testing.T) {
 	input := `QueryStatement [0-521]
   Query [0-521]
     WithClause [0-467]
@@ -170,4 +208,6 @@ func TestParseDebugString(t *testing.T) {
 	}
 
 	fmt.Println(string(bytes))
+
+	Reset()
 }

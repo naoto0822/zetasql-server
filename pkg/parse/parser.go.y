@@ -3,7 +3,6 @@ package parse
 
 import (
 	"log"
-	"fmt"
 )
 
 type Token struct {
@@ -181,8 +180,6 @@ func (w *LexerWrapper) Lex(lval *yySymType) int {
 		return 0
 	}
 
-	fmt.Println(lit)
-
 	lval.tok = Token{
 		tok: tok,
 		lit: lit,
@@ -209,4 +206,8 @@ func Parse(l *Lexer) *Stack {
 	}
 
 	return w.Stack
+}
+
+func Reset() {
+	currentDepth = 0
 }

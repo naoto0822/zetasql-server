@@ -6,7 +6,7 @@ state 0
 	IDENT  shift 5
 	INDENT  shift 6
 	LINE_BREAK  shift 4
-	.  reduce 1 (src line 33)
+	.  reduce 1 (src line 32)
 
 	statements  goto 1
 	statement  goto 2
@@ -26,7 +26,7 @@ state 2
 	IDENT  shift 5
 	INDENT  shift 6
 	LINE_BREAK  shift 4
-	.  reduce 1 (src line 33)
+	.  reduce 1 (src line 32)
 
 	statements  goto 7
 	statement  goto 2
@@ -44,7 +44,7 @@ state 3
 state 4
 	expr:  LINE_BREAK.    (5)
 
-	.  reduce 5 (src line 112)
+	.  reduce 5 (src line 111)
 
 
 state 5
@@ -67,19 +67,19 @@ state 6
 state 7
 	statements:  statement statements.    (2)
 
-	.  reduce 2 (src line 41)
+	.  reduce 2 (src line 40)
 
 
 state 8
 	statement:  expr LINE_BREAK.    (3)
 
-	.  reduce 3 (src line 49)
+	.  reduce 3 (src line 48)
 
 
 state 9
 	statement:  expr ';'.    (4)
 
-	.  reduce 4 (src line 83)
+	.  reduce 4 (src line 82)
 
 
 state 10
@@ -192,7 +192,7 @@ state 24
 state 25
 	expr:  IDENT '[' NUMBER '-' NUMBER ']'.    (6)
 
-	.  reduce 6 (src line 117)
+	.  reduce 6 (src line 116)
 
 
 state 26
@@ -219,13 +219,13 @@ state 28
 state 29
 	expr:  IDENT VALUE '[' NUMBER '-' NUMBER ']'.    (7)
 
-	.  reduce 7 (src line 129)
+	.  reduce 7 (src line 128)
 
 
 state 30
 	expr:  INDENT IDENT '[' NUMBER '-' NUMBER ']'.    (8)
 
-	.  reduce 8 (src line 141)
+	.  reduce 8 (src line 140)
 
 
 state 31
@@ -238,7 +238,7 @@ state 31
 state 32
 	expr:  INDENT IDENT VALUE '[' NUMBER '-' NUMBER ']'.    (9)
 
-	.  reduce 9 (src line 154)
+	.  reduce 9 (src line 153)
 
 
 16 terminals, 4 nonterminals
