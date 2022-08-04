@@ -1,13 +1,13 @@
 gazelle:
 	bazel run //:gazelle
 
-build:
+build: gazelle
 	bazel build //:zetasql-server
 
 clean:
 	bazel clean --expunge
 
-run:
+run: build
 	bazel run //:zetasql-server
 
 .PHONY: gazelle build clean run

@@ -66,6 +66,16 @@ $ curl -X POST -H 'Content-type: application/text' --data 'SEL 1' http://localho
 generic::invalid_argument: Syntax error: Unexpected identifier "SEL" [zetasql.ErrorLocation] { line: 1 column: 1 }
 ```
 
+## Development Run
+
+```
+$ make run
+```
+
+## Release
+
+Create Github Release of new tag.
+
 ## Features
 
 - [x] Format sql
