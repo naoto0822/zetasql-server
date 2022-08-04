@@ -74,7 +74,7 @@ $ make run
 
 ## Release
 
-Create Github Release of new tag.
+If creating Github Release of new tag, CI push new docker image.
 
 ## Features
 
